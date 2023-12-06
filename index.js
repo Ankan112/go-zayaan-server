@@ -16,10 +16,12 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 // Middleware to set caching headers
-app.use((req, res, next) => {
-  res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+//   next();
+// });
+app.set("etag", false);
+app.use(express.static("public", { maxAge: 31536000 }));
 const run = async () => {
   try {
     const db = client.db("go-zayaan");
