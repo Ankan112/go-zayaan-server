@@ -15,7 +15,11 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
   serverApi: ServerApiVersion.v1,
 });
-
+// Middleware to set caching headers
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+  next();
+});
 const run = async () => {
   try {
     const db = client.db("go-zayaan");
